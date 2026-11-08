@@ -1,6 +1,7 @@
 # Aurum Training — gym app pilot (demo)
 
-**Live demo:** https://ross-lawlor.github.io/aurum-pilot/
+**Live demo:** https://ross-lawlor.github.io/aurum-pilot/  
+**Demo video (70 s):** https://ross-lawlor.github.io/aurum-pilot/demo.mp4
 
 A white-label gym training app built on IronTrack, branded for **Aurum Athletic Club — a fictional gym** used to show how the app works for a real one. All member data is sample data and stays on the device that opens it.
 
