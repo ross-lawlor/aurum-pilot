@@ -1,0 +1,21 @@
+{
+  "note": "DEMO KEY for the Aurum pilot. Never publish this file. Create a fresh key before a real launch.",
+  "gym": "aurum",
+  "privateKey": {
+    "key_ops": [
+      "sign"
+    ],
+    "ext": true,
+    "kty": "EC",
+    "x": "rlsghUbbcRUfdiDBqkCgHeMGyHeEEItbYF6ETirP3f4",
+    "y": "il2c14qdT156UVjrV0lJBNURISaQbJZVdFfk2XEWlQI",
+    "crv": "P-256",
+    "d": "1B6J1FyYsI2xJa9zFpxMlo0pb8UCkUSgl1vt2eLHKxE"
+  },
+  "publicKey": {
+    "kty": "EC",
+    "crv": "P-256",
+    "x": "rlsghUbbcRUfdiDBqkCgHeMGyHeEEItbYF6ETirP3f4",
+    "y": "il2c14qdT156UVjrV0lJBNURISaQbJZVdFfk2XEWlQI"
+  }
+}

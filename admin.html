@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Aurum Coach Console</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@500;600;700;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{
+  --bg:#0a0907; --card:#16140f; --card-2:#211e17; --card-3:#2e2a20; --line:rgba(120,108,84,.38);
+  --label:#f7f3ea; --label-2:rgba(240,232,214,.64); --label-3:rgba(240,232,214,.36);
+  --accent:#d4af37; --accent-text:#e3c766; --accent-soft:rgba(212,175,55,.16); --on-accent:#14110a;
+  --gold:linear-gradient(135deg,#f3dc8a 0%,#d4af37 48%,#a8842a 100%);
+  --good:#5fd38a; --warn:#ffb35c; --bad:#ff7a6e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--label);font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 20px 120px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:6px 0 18px;border-bottom:1px solid var(--line)}
+.lock{display:flex;align-items:center;gap:12px}
+.word{font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:22px;letter-spacing:.16em;line-height:1;background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:9px;font-weight:800;letter-spacing:.38em;color:#d9c48a;margin-top:5px}
+.title{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--label-2);margin-left:14px;padding-left:14px;border-left:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:var(--card-2);color:var(--label-2)}
+.chip.ok{background:rgba(95,211,138,.14);color:var(--good)}
+.chip.warn{background:rgba(255,179,92,.14);color:var(--warn)}
+.chip.gold{background:var(--accent-soft);color:var(--accent-text)}
+nav{display:flex;gap:6px;margin:18px 0 6px;flex-wrap:wrap}
+nav button{padding:9px 16px;border-radius:999px;font-weight:700;color:var(--label-2);background:var(--card)}
+nav button.on{background:var(--gold);color:var(--on-accent)}
+h2{font-size:20px;font-weight:800;margin:26px 0 4px}
+h3{font-size:16px;font-weight:800;margin-bottom:10px}
+.lead{color:var(--label-2);max-width:720px;margin-bottom:14px}
+.card{background:var(--card);border-radius:16px;padding:18px;border:1px solid rgba(212,175,55,.12)}
+.card + .card{margin-top:14px}
+.grid2 > .card + .card{margin-top:0}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+label.f{display:block;margin-bottom:12px}
+label.f > span{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--label-2);margin-bottom:6px}
+input[type=text],input[type=date],input[type=number],input[type=time],select,textarea{width:100%;background:var(--card-2);border:1px solid transparent;border-radius:10px;padding:10px 12px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{min-height:84px;resize:vertical;line-height:1.45}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-weight:800;background:var(--card-3);white-space:nowrap}
+.btn.pri{background:var(--gold);color:var(--on-accent)}
+.btn.sm{height:32px;padding:0 12px;font-size:13px}
+.btn.ghost{background:none;color:var(--accent-text);padding:0 6px}
+.btn.red{color:var(--bad)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.pills{display:flex;gap:6px;margin-top:8px}
+.pills button{font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--card-3);color:var(--label-2)}
+.muted{color:var(--label-2)}
+.small{font-size:13px}
+.hidden{display:none!important}
+.result{display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:620px){.result{grid-template-columns:1fr}}
+.qr{background:#fff;border-radius:14px;padding:10px;width:200px;height:200px;display:flex;align-items:center;justify-content:center}
+.qr svg,.qr img{width:100%;height:100%}
+.inv-name{font-size:22px;font-weight:800}
+.link{display:flex;gap:8px;margin:12px 0}
+.link input{font-size:12.5px;color:var(--label-2)}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--label-3);padding:8px 8px;border-bottom:1px solid var(--line)}
+td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.num{font-variant-numeric:tabular-nums}
+.tt td{padding:5px 6px}
+.tt input,.tt select{padding:7px 9px}
+.st-active{color:var(--good);font-weight:700}
+.st-expired{color:var(--warn);font-weight:700}
+.st-revoked{color:var(--bad);font-weight:700}
+details.item{background:var(--card-2);border-radius:12px;margin-top:10px}
+details.item > summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:center;font-weight:700}
+details.item > summary::-webkit-details-marker{display:none}
+details.item > summary::before{content:"▸";color:var(--accent);transition:transform .15s}
+details.item[open] > summary::before{transform:rotate(90deg)}
+details.item > summary small{color:var(--label-3);font-weight:600;margin-left:auto}
+details.item .body{padding:0 14px 14px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(14,13,10,.96);border-top:1px solid rgba(212,175,55,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.bar .in{max-width:1040px;margin:0 auto;padding:12px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar .msg{flex:1;min-width:200px;font-size:13.5px;color:var(--label-2)}
+.toast{position:fixed;top:16px;left:50%;transform:translate(-50%,-150%);background:var(--card-3);padding:10px 18px;border-radius:999px;font-weight:700;transition:transform .3s;z-index:9;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.toast.show{transform:translate(-50%,0)}
+.keybox{border:1px dashed rgba(212,175,55,.45)}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--card-2);padding:2px 6px;border-radius:6px;word-break:break-all}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 2px}
+.stat{background:var(--card-2);border-radius:12px;padding:10px 14px;min-width:120px}
+.stat b{display:block;font-size:22px;font-weight:800}
+.stat span{font-size:12px;color:var(--label-2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="lock" id="lockup"></div>
+    <div class="row"><span class="chip gold">Pilot</span><span class="chip" id="key-chip">No signing key</span></div>
+  </header>
+  <nav id="nav">
+    <button data-tab="members" class="on">Members &amp; invites</button>
+    <button data-tab="content">Club content</button>
+    <button data-tab="publish">Publish</button>
+  </nav>
+
+  <!-- Members -->
+  <section data-view="members">
+    <div class="card keybox hidden" id="key-setup">
+      <h3>Load the gym’s signing key</h3>
+      <p class="muted small" style="margin-bottom:12px">Invites are signed with Aurum’s private key, so only this console can create them. The key stays in this browser and is never sent anywhere.</p>
+      <div class="row">
+        <button class="btn pri" data-act="key-demo">Use the pilot demo key</button>
+        <button class="btn" data-act="key-file">Load a key file…</button>
+        <button class="btn" data-act="key-new">Create a new key</button>
+        <input type="file" id="key-in" accept=".json,application/json" class="hidden">
+      </div>
+      <p class="muted small hidden" id="key-insecure" style="margin-top:12px;color:var(--warn)">Browsers only allow signing on secure pages. Open this console at <b>http://localhost:8082/admin.html</b> on the Mac running the test server, or on the hosted https site.</p>
+      <div id="key-new-out" class="hidden" style="margin-top:14px"></div>
+    </div>
+
+    <h2>New member invite</h2>
+    <p class="lead">Create an invite when someone joins or renews. They scan the QR code at the front desk, or you send them the link on WhatsApp. The invite unlocks the app until the date you pick.</p>
+    <div class="grid2">
+      <div class="card">
+        <label class="f"><span>Member’s full name</span><input type="text" id="i-name" placeholder="e.g. Naledi Khumalo" autocomplete="off"></label>
+        <label class="f"><span>Member number</span><input type="text" id="i-num" autocomplete="off"></label>
+        <label class="f"><span>Access until</span><input type="date" id="i-until">
+          <div class="pills"><button data-months="1">1 month</button><button data-months="3">3 months</button><button data-months="6">6 months</button><button data-months="12">12 months</button></div></label>
+        <button class="btn pri" data-act="create" id="create-btn">Create invite</button>
+      </div>
+      <div class="card" id="result">
+        <p class="muted">The QR code and link appear here.</p>
+      </div>
+    </div>
+
+    <h2>Issued invites</h2>
+    <div class="stats" id="stats"></div>
+    <div class="card" style="margin-top:12px;overflow-x:auto">
+      <table><thead><tr><th>Member</th><th>No.</th><th>Issued</th><th>Access until</th><th>Status</th><th></th></tr></thead><tbody id="inv-rows"></tbody></table>
+      <div class="row" style="margin-top:12px"><button class="btn sm" data-act="inv-csv">Export CSV</button><span class="muted small">Turning an invite off locks that member out the next time their phone checks in with the club (when you publish).</span></div>
+    </div>
+  </section>
+
+  <!-- Club content -->
+  <section data-view="content" class="hidden">
+    <h2>News</h2>
+    <p class="lead">Shows in the Club tab with a gold dot until the member has read it. The newest also appears on their home screen.</p>
+    <div class="card"><button class="btn sm pri" data-act="add" data-list="announcements">Add news</button><div id="l-announcements"></div></div>
+
+    <h2>Monthly challenge</h2>
+    <p class="lead">Progress is counted automatically from what members log. A monthly challenge resets on the 1st.</p>
+    <div class="card" id="challenge"></div>
+
+    <h2>Class timetable</h2>
+    <p class="lead">Members see today’s classes, with a Book button that opens WhatsApp to the front desk.</p>
+    <div class="card" style="overflow-x:auto"><table class="tt"><thead><tr><th>Day</th><th>Time</th><th>Class</th><th>Coach</th><th>Minutes</th><th></th></tr></thead><tbody id="tt-rows"></tbody></table>
+      <button class="btn sm" style="margin-top:10px" data-act="tt-add">Add class</button></div>
+
+    <h2>Coach programmes</h2>
+    <p class="lead">Members add these to their routines in one tap. Your note shows on each exercise during their workout — use it for targets like “5 reps at RPE 7”.</p>
+    <div class="card"><button class="btn sm pri" data-act="add" data-list="programmes">Add programme</button><div id="l-programmes"></div></div>
+
+    <h2>Member perks</h2>
+    <div class="card"><button class="btn sm pri" data-act="add" data-list="perks">Add perk</button><div id="l-perks"></div></div>
+  </section>
+
+  <!-- Publish -->
+  <section data-view="publish" class="hidden">
+    <h2>Publish your changes</h2>
+    <p class="lead">Members get new news, classes, programmes and challenges the next time they open the app online. During the pilot, publishing means sending the club file to your app manager, who puts it live, usually the same day.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>1. Check it on this device</h3>
+        <p class="muted small" style="margin-bottom:12px">Shows your draft in the member app on this computer only, marked “Coach preview”.</p>
+        <div class="row"><button class="btn pri" data-act="preview">Preview in the app</button><button class="btn" data-act="preview-off">Stop preview</button></div>
+      </div>
+      <div class="card">
+        <h3>2. Send it live</h3>
+        <p class="muted small" style="margin-bottom:12px">Download <code>club.json</code> and send it to your app manager. It includes any invites you turned off.</p>
+        <div class="row"><button class="btn pri" data-act="download">Download club.json</button><button class="btn" data-act="copy-json">Copy</button></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>Start again from the live version</h3>
+      <p class="muted small" style="margin-bottom:12px">Throws away your draft and reloads what members currently see.</p>
+      <button class="btn red" data-act="reload">Discard draft</button>
+    </div>
+    <h2>Pilot settings</h2>
+    <div class="card">
+      <label class="f"><span>App address used in invite links and QR codes</span><input type="text" id="base"></label>
+      <p class="muted small">On the test server this is filled in with your Mac’s Wi-Fi address, so phones on the same network can open the link.</p>
+    </div>
+  </section>
+</div>
+
+<div class="bar"><div class="in"><div class="msg" id="bar-msg"></div><button class="btn sm" data-tab-go="publish">Review &amp; publish</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Aurum Coach Console — the gym's side of the pilot.
+   • Signs member invites (ECDSA P-256) with the gym's private key, kept only in this browser.
+   • Edits club.json (news, challenge, timetable, programmes, perks, turned-off invites).
+   Everything is saved in this browser; nothing is sent anywhere. */
+const GYM_ID = 'aurum';
+const APP_PUBLIC_KEY = { x:'rlsghUbbcRUfdiDBqkCgHeMGyHeEEItbYF6ETirP3f4', y:'il2c14qdT156UVjrV0lJBNURISaQbJZVdFfk2XEWlQI' };
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const pad = n => String(n).padStart(2, '0');
+const dayKey = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const today = () => dayKey(new Date());
+const addMonths = n => { const d = new Date(); d.setMonth(d.getMonth() + n); return dayKey(d); };
+const fmtDate = ds => ds ? new Date(ds + 'T12:00:00').toLocaleDateString(undefined, { day:'numeric', month:'short', year:'numeric' }) : '';
+const get = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } };
+const put = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+const b64u = bytes => btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const b64uStr = s => b64u(new TextEncoder().encode(s));
+let toastT;
+function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2400); }
+async function copy(text){ try { await navigator.clipboard.writeText(text); return true; } catch(e){ return false; } }
+
+$('#lockup').innerHTML = `<img src="aurum-mark.svg" width="46" height="46" alt=""><div><div class="word">AURUM</div><div class="sub">ATHLETIC CLUB</div></div><div class="title">Coach console</div>`;
+
+/* ---------- State ---------- */
+let KEY = null;                         // CryptoKey for signing
+let INVITES = get('au_admin_invites', []);
+let DRAFT = get('au_admin_draft', null);
+let PUBLISHED = null;
+let BASE = get('au_admin_base', '') || new URL('./', location.href).href;
+
+/* ---------- Signing key ---------- */
+const secure = !!(window.crypto && crypto.subtle);
+async function useKey(jwk, label){
+  const priv = jwk.privateKey || jwk;
+  if(!priv || !priv.d) throw new Error('That file has no private key in it.');
+  KEY = await crypto.subtle.importKey('jwk', { kty:'EC', crv:'P-256', x:priv.x, y:priv.y, d:priv.d }, { name:'ECDSA', namedCurve:'P-256' }, false, ['sign']);
+  put('au_admin_key', { x:priv.x, y:priv.y, d:priv.d, label });
+  const match = priv.x === APP_PUBLIC_KEY.x && priv.y === APP_PUBLIC_KEY.y;
+  const chip = $('#key-chip'); chip.className = 'chip ' + (match ? 'ok' : 'warn');
+  chip.textContent = match ? `Signing key: ${label}` : `Key doesn’t match this app build`;
+  $('#key-setup').classList.toggle('hidden', match);
+  updateCreate();
+}
+async function initKey(){
+  if(!secure){ $('#key-setup').classList.remove('hidden'); $('#key-insecure').classList.remove('hidden'); $$('[data-act^=key-]').forEach(b => b.disabled = true); updateCreate(); return; }
+  const saved = get('au_admin_key', null);
+  if(saved && saved.d){ try { await useKey(saved, saved.label || 'saved'); return; } catch(e){} }
+  $('#key-setup').classList.remove('hidden'); updateCreate();
+}
+function updateCreate(){ $('#create-btn').disabled = !KEY; }
+
+/* ---------- Invites ---------- */
+function nextNumber(){
+  const nums = INVITES.map(i => parseInt(String(i.num).replace(/\D/g, ''), 10)).filter(n => n > 0);
+  return 'AUR-' + (Math.max(1043, ...nums) + 1);
+}
+function inviteURL(token){ return BASE.replace(/[^/]*$/, '') + '?join=' + token; }
+async function signInvite(name, num, until){
+  const payload = { v:1, g:GYM_ID, n:name, m:num, i:today(), e:until };
+  const body = b64uStr(JSON.stringify(payload));
+  const sig = await crypto.subtle.sign({ name:'ECDSA', hash:'SHA-256' }, KEY, new TextEncoder().encode(body));
+  return body + '.' + b64u(sig);
+}
+function qrSVG(text){
+  if(typeof qrcode !== 'function') return '<div class="muted small" style="color:#333;text-align:center;padding:10px">QR codes need an internet connection. Copy the link instead.</div>';
+  const q = qrcode(0, 'M'); q.addData(text); q.make();
+  return q.createSvgTag({ cellSize:4, margin:2, scalable:true });
+}
+const statusOf = inv => inv.revoked ? 'revoked' : inv.until < today() ? 'expired' : 'active';
+const whatsappText = inv => `Hi ${inv.name.split(' ')[0]}! Here’s your Aurum Training app, included with your membership:\n${inviteURL(inv.token)}\n\nOpen it on your phone, then tap Share → Add to Home Screen. See you in the gym! – Aurum Athletic Club`;
+function showResult(inv){
+  $('#result').innerHTML = `<div class="result">
+    <div class="qr">${qrSVG(inviteURL(inv.token))}</div>
+    <div>
+      <div class="muted small">Invite for</div><div class="inv-name">${esc(inv.name)}</div>
+      <div class="muted">${esc(inv.num)} · access until ${fmtDate(inv.until)}</div>
+      <div class="link"><input type="text" readonly value="${esc(inviteURL(inv.token))}"><button class="btn sm" data-act="copy-link" data-num="${esc(inv.num)}">Copy link</button></div>
+      <div class="row"><button class="btn sm" data-act="copy-msg" data-num="${esc(inv.num)}">Copy WhatsApp message</button><button class="btn sm" data-act="print" data-num="${esc(inv.num)}">Print invite card</button></div>
+      <p class="muted small" style="margin-top:12px">They scan the QR with the phone camera, or open the link. On iPhone the app then shows them how to add it to the home screen.</p>
+    </div></div>`;
+}
+function renderInvites(){
+  const rows = INVITES.slice().sort((a, b) => b.issued.localeCompare(a.issued) || b.num.localeCompare(a.num));
+  $('#inv-rows').innerHTML = rows.length ? rows.map(inv => { const st = statusOf(inv); return `<tr>
+    <td><b>${esc(inv.name)}</b></td><td class="num">${esc(inv.num)}</td><td class="num">${fmtDate(inv.issued)}</td><td class="num">${fmtDate(inv.until)}</td>
+    <td class="st-${st}">${st === 'active' ? 'Active' : st === 'expired' ? 'Expired' : 'Turned off'}</td>
+    <td style="text-align:right;white-space:nowrap"><button class="btn sm ghost" data-act="show" data-num="${esc(inv.num)}">Show QR</button><button class="btn sm ghost ${inv.revoked ? '' : 'red'}" data-act="revoke" data-num="${esc(inv.num)}">${inv.revoked ? 'Turn on' : 'Turn off'}</button></td></tr>`; }).join('')
+    : `<tr><td colspan="6" class="muted">No invites yet. Create the first one above.</td></tr>`;
+  const n = s => INVITES.filter(i => statusOf(i) === s).length;
+  $('#stats').innerHTML = `<div class="stat"><b>${INVITES.length}</b><span>invites issued</span></div><div class="stat"><b>${n('active')}</b><span>active</span></div><div class="stat"><b>${n('expired')}</b><span>expired · renew</span></div><div class="stat"><b>${n('revoked')}</b><span>turned off</span></div>`;
+}
+function printCard(inv){
+  const w = window.open('', '_blank'); if(!w){ toast('Allow pop-ups to print'); return; }
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Aurum invite — ${esc(inv.name)}</title><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Manrope:wght@600;800&display=swap" rel="stylesheet"><style>body{font-family:Manrope,sans-serif;margin:0;display:flex;justify-content:center;padding:30px}.c{width:340px;border:2px solid #b8932f;border-radius:18px;padding:26px;text-align:center}.w{font-family:Cinzel,serif;font-size:28px;letter-spacing:.16em;color:#a07a22}.s{font-size:9px;letter-spacing:.38em;font-weight:800;color:#8a6d22;margin-top:4px}h1{font-size:19px;margin:20px 0 4px}.q{width:220px;height:220px;margin:16px auto}.q svg{width:100%;height:100%}p{font-size:13px;color:#444;line-height:1.45;margin:6px 0}</style></head><body><div class="c"><img src="${new URL('aurum-mark.svg', location.href).href}" width="64" height="64"><div class="w">AURUM</div><div class="s">ATHLETIC CLUB</div><h1>Your training app, ${esc(inv.name.split(' ')[0])}</h1><p>Scan with your phone camera to unlock it.</p><div class="q">${qrSVG(inviteURL(inv.token))}</div><p><b>${esc(inv.num)}</b> · access until ${fmtDate(inv.until)}</p><p>Then tap Share → Add to Home Screen.</p></div><script>setTimeout(() => print(), 600)<\/script></body></html>`);
+  w.document.close();
+}
+
+/* ---------- Club content ---------- */
+const FIELDS = {
+  announcements:[{ k:'title', label:'Headline' }, { k:'date', label:'Date', type:'date' }, { k:'body', label:'Message', type:'textarea' }],
+  programmes:[{ k:'name', label:'Programme name' }, { k:'coach', label:'Coach' }, { k:'level', label:'Level' }, { k:'weeks', label:'Schedule, e.g. 6 weeks · 3 days a week' }, { k:'desc', label:'Description', type:'textarea' },
+    { k:'items', label:'Exercises — one per line: Exercise | sets | coach note', type:'items' }],
+  perks:[{ k:'title', label:'Perk' }, { k:'body', label:'Details', type:'textarea' }]
+};
+const summaryOf = (list, it) => list === 'announcements' ? [it.title || 'Untitled news', fmtDate(it.date)] : list === 'programmes' ? [it.name || 'Untitled programme', `Coach ${it.coach || '—'} · ${(it.items || []).length} exercises`] : [it.title || 'Untitled perk', ''];
+const itemsText = items => (items || []).map(i => [i.ex, i.sets, i.note].filter(v => v !== undefined && v !== '').join(' | ')).join('\n');
+const parseItems = text => text.split('\n').map(l => l.split('|').map(x => x.trim())).filter(p => p[0]).map(([ex, sets, ...note]) => ({ ex, sets:Math.max(1, Math.min(12, parseInt(sets, 10) || 3)), ...(note.join(' | ') ? { note:note.join(' | ') } : {}) }));
+function renderList(list, openIdx){
+  const arr = DRAFT[list] || (DRAFT[list] = []);
+  $(`#l-${list}`).innerHTML = arr.map((it, i) => { const [t, s] = summaryOf(list, it); return `<details class="item" data-list="${list}" data-i="${i}" ${i === openIdx ? 'open' : ''}><summary><span class="sum-t">${esc(t)}</span><small class="sum-s">${esc(s)}</small></summary><div class="body">
+    ${FIELDS[list].map(f => `<label class="f"><span>${f.label}</span>${f.type === 'textarea' ? `<textarea data-k="${f.k}">${esc(it[f.k])}</textarea>` : f.type === 'items' ? `<textarea data-k="items" style="min-height:130px;font-family:ui-monospace,Menlo,monospace;font-size:13px">${esc(itemsText(it.items))}</textarea>` : `<input type="${f.type || 'text'}" data-k="${f.k}" value="${esc(it[f.k])}">`}</label>`).join('')}
+    <button class="btn sm red" data-act="del" data-list="${list}" data-i="${i}">Delete</button></div></details>`; }).join('') || `<p class="muted small" style="margin-top:12px">Nothing yet.</p>`;
+}
+const METRICS = [['sessions', 'Sessions — workouts, classes, runs and rides'], ['workouts', 'Gym workouts only'], ['distance', 'Distance run, walked or ridden (km)'], ['minutes', 'Minutes trained'], ['sets', 'Sets completed']];
+function renderChallenge(){
+  const c = DRAFT.challenge || (DRAFT.challenge = { id:'challenge', title:'', desc:'', metric:'sessions', target:12, recurring:'monthly', reward:'' });
+  $('#challenge').innerHTML = `<div class="grid2">
+    <label class="f"><span>Name</span><input type="text" data-c="title" value="${esc(c.title)}"></label>
+    <label class="f"><span>Counts</span><select data-c="metric">${METRICS.map(([v, l]) => `<option value="${v}" ${c.metric === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+    <label class="f"><span>Target</span><input type="number" min="1" data-c="target" value="${esc(c.target)}"></label>
+    <label class="f"><span>Runs</span><select data-c="recurring"><option value="monthly" ${c.recurring === 'monthly' ? 'selected' : ''}>Every month (resets on the 1st)</option><option value="" ${c.recurring !== 'monthly' ? 'selected' : ''}>Once, between set dates</option></select></label>
+    <label class="f ${c.recurring === 'monthly' ? 'hidden' : ''}" data-dates><span>Starts</span><input type="date" data-c="start" value="${esc(c.start)}"></label>
+    <label class="f ${c.recurring === 'monthly' ? 'hidden' : ''}" data-dates><span>Ends</span><input type="date" data-c="end" value="${esc(c.end)}"></label>
+  </div>
+  <label class="f"><span>Description</span><textarea data-c="desc">${esc(c.desc)}</textarea></label>
+  <label class="f"><span>Reward (optional)</span><input type="text" data-c="reward" value="${esc(c.reward)}"></label>`;
+}
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+function renderTimetable(){
+  const tt = DRAFT.timetable || (DRAFT.timetable = []);
+  $('#tt-rows').innerHTML = tt.map((c, i) => `<tr data-i="${i}">
+    <td><select data-t="day">${DAYS.map((d, j) => `<option value="${j + 1}" ${c.day === j + 1 ? 'selected' : ''}>${d}</option>`).join('')}</select></td>
+    <td><input type="time" data-t="time" value="${esc(c.time)}"></td><td><input type="text" data-t="name" value="${esc(c.name)}"></td>
+    <td><input type="text" data-t="coach" value="${esc(c.coach)}"></td><td style="width:90px"><input type="number" min="5" data-t="mins" value="${esc(c.mins)}"></td>
+    <td><button class="btn sm ghost red" data-act="tt-del" data-i="${i}">Remove</button></td></tr>`).join('');
+}
+function sortTimetable(){ DRAFT.timetable.sort((a, b) => a.day - b.day || String(a.time).localeCompare(String(b.time))); }
+function renderContent(){ ['announcements', 'programmes', 'perks'].forEach(l => renderList(l)); renderChallenge(); renderTimetable(); }
+
+/* ---------- Draft, preview, publish ---------- */
+function exportObj(){
+  return { version:1, updated:today(), announcements:DRAFT.announcements || [], timetable:DRAFT.timetable || [], programmes:DRAFT.programmes || [],
+    challenge:DRAFT.challenge || null, perks:DRAFT.perks || [], revoked:INVITES.filter(i => i.revoked).map(i => i.num) };
+}
+const strip = o => JSON.stringify({ ...o, updated:'' });
+let saveT;
+function saveDraft(){ clearTimeout(saveT); saveT = setTimeout(() => { put('au_admin_draft', DRAFT); updateBar(); }, 250); }
+function updateBar(){
+  const dirty = PUBLISHED && strip(exportObj()) !== strip({ ...PUBLISHED, revoked:PUBLISHED.revoked || [] });
+  const preview = !!localStorage.getItem('au_club_preview');
+  $('#bar-msg').innerHTML = (dirty ? '<b style="color:var(--accent-text)">You have changes that members can’t see yet.</b> ' : 'Everything matches what members see. ') + (preview ? '<span class="chip gold">Preview on</span>' : '');
+}
+async function loadPublished(){
+  try { const r = await fetch('club.json', { cache:'no-cache' }); PUBLISHED = await r.json(); } catch(e){ PUBLISHED = { announcements:[], timetable:[], programmes:[], perks:[], challenge:null, revoked:[] }; }
+  if(!DRAFT) DRAFT = JSON.parse(JSON.stringify(PUBLISHED));
+  renderContent(); updateBar();
+}
+function download(name, text){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type:'application/json' })); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+
+/* ---------- Events ---------- */
+document.addEventListener('click', async e => {
+  const tabBtn = e.target.closest('[data-tab],[data-tab-go]');
+  if(tabBtn){ const t = tabBtn.dataset.tab || tabBtn.dataset.tabGo; $$('#nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === t)); $$('[data-view]').forEach(v => v.classList.toggle('hidden', v.dataset.view !== t)); window.scrollTo(0, 0); return; }
+  const m = e.target.closest('[data-months]'); if(m){ $('#i-until').value = addMonths(+m.dataset.months); return; }
+  const b = e.target.closest('[data-act]'); if(!b) return;
+  const act = b.dataset.act, inv = b.dataset.num && INVITES.find(i => i.num === b.dataset.num);
+  try {
+    if(act === 'key-demo'){ const r = await fetch('pilot-signing-key.json', { cache:'no-cache' }); if(!r.ok) throw new Error('The pilot demo key file isn’t here.'); await useKey(await r.json(), 'pilot demo key'); toast('Demo key loaded'); }
+    else if(act === 'key-file') $('#key-in').click();
+    else if(act === 'key-new'){
+      const kp = await crypto.subtle.generateKey({ name:'ECDSA', namedCurve:'P-256' }, true, ['sign', 'verify']);
+      const priv = await crypto.subtle.exportKey('jwk', kp.privateKey), pub = { kty:'EC', crv:'P-256', x:priv.x, y:priv.y };
+      download('aurum-signing-key.json', JSON.stringify({ note:'Aurum invite signing key. Keep it safe; anyone with it can create invites.', gym:GYM_ID, privateKey:priv, publicKey:pub }, null, 2));
+      await useKey(priv, 'new key');
+      $('#key-new-out').classList.remove('hidden');
+      $('#key-new-out').innerHTML = `<p class="small">Saved <b>aurum-signing-key.json</b> to your downloads — keep it somewhere safe. Send this public key to your app manager so the app accepts these invites:</p><p style="margin-top:8px"><code>${esc(JSON.stringify(pub))}</code></p>`;
+    }
+    else if(act === 'create'){
+      const name = $('#i-name').value.trim(), num = $('#i-num').value.trim(), until = $('#i-until').value;
+      if(!name || !num || !until){ toast('Add a name, number and date'); return; }
+      if(until < today()){ toast('Pick a date in the future'); return; }
+      const token = await signInvite(name, num, until), rec = { name, num, until, issued:today(), token, revoked:false };
+      INVITES = INVITES.filter(i => i.num !== num).concat(rec); put('au_admin_invites', INVITES);
+      showResult(rec); renderInvites(); updateBar();
+      $('#i-name').value = ''; $('#i-num').value = nextNumber(); toast('Invite created');
+    }
+    else if(act === 'show' && inv) { showResult(inv); window.scrollTo({ top:0, behavior:'smooth' }); }
+    else if(act === 'copy-link' && inv) toast(await copy(inviteURL(inv.token)) ? 'Link copied' : 'Select the link and copy it');
+    else if(act === 'copy-msg' && inv) toast(await copy(whatsappText(inv)) ? 'Message copied — paste it into WhatsApp' : 'Couldn’t copy');
+    else if(act === 'print' && inv) printCard(inv);
+    else if(act === 'revoke' && inv){ inv.revoked = !inv.revoked; put('au_admin_invites', INVITES); renderInvites(); updateBar(); toast(inv.revoked ? `${inv.name}’s access will turn off when you publish` : `${inv.name}’s access is back on after you publish`); }
+    else if(act === 'inv-csv'){ const rows = [['Name', 'Member no.', 'Issued', 'Access until', 'Status', 'Invite link']].concat(INVITES.map(i => [i.name, i.num, i.issued, i.until, statusOf(i), inviteURL(i.token)])); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + rows.map(r => r.map(c => /[",\n]/.test(c) ? `"${String(c).replace(/"/g, '""')}"` : c).join(',')).join('\r\n')], { type:'text/csv' })); a.download = `aurum-invites-${today()}.csv`; document.body.appendChild(a); a.click(); a.remove(); }
+    else if(act === 'add'){
+      const list = b.dataset.list, blank = list === 'announcements' ? { id:'n-' + Date.now().toString(36), date:today(), title:'', body:'' } : list === 'programmes' ? { id:'p-' + Date.now().toString(36), name:'', coach:'', level:'All levels', weeks:'', desc:'', items:[] } : { title:'', body:'' };
+      DRAFT[list] = [blank, ...(DRAFT[list] || [])]; renderList(list, 0); saveDraft(); $(`#l-${list} details[open] input, #l-${list} details[open] textarea`)?.focus();
+    }
+    else if(act === 'del'){ if(!confirm('Delete this?')) return; DRAFT[b.dataset.list].splice(+b.dataset.i, 1); renderList(b.dataset.list); saveDraft(); }
+    else if(act === 'tt-add'){ DRAFT.timetable.push({ day:1, time:'06:00', name:'Strength', coach:'', mins:60 }); renderTimetable(); saveDraft(); }
+    else if(act === 'tt-del'){ DRAFT.timetable.splice(+b.dataset.i, 1); renderTimetable(); saveDraft(); }
+    else if(act === 'preview'){ localStorage.setItem('au_club_preview', JSON.stringify(exportObj())); updateBar(); window.open(new URL('./', location.href).href, '_blank'); }
+    else if(act === 'preview-off'){ localStorage.removeItem('au_club_preview'); updateBar(); toast('Preview off — the app shows the live version'); }
+    else if(act === 'download'){ download('club.json', JSON.stringify(exportObj(), null, 2)); toast('club.json downloaded'); }
+    else if(act === 'copy-json') toast(await copy(JSON.stringify(exportObj(), null, 2)) ? 'Copied' : 'Couldn’t copy');
+    else if(act === 'reload'){ if(!confirm('Throw away your draft?')) return; DRAFT = JSON.parse(JSON.stringify(PUBLISHED)); put('au_admin_draft', DRAFT); renderContent(); updateBar(); toast('Draft reset'); }
+  } catch(err){ toast(err.message || 'Something went wrong'); }
+});
+$('#key-in').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = ''; if(!f) return;
+  try { await useKey(JSON.parse(await f.text()), f.name.replace(/\.json$/, '')); toast('Key loaded'); } catch(err){ toast(err.message || 'That isn’t a key file'); }
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  const item = t.closest('details.item');
+  if(item && t.dataset.k){
+    const it = DRAFT[item.dataset.list][+item.dataset.i];
+    it[t.dataset.k] = t.dataset.k === 'items' ? parseItems(t.value) : t.value;
+    const [s1, s2] = summaryOf(item.dataset.list, it); item.querySelector('.sum-t').textContent = s1; item.querySelector('.sum-s').textContent = s2;
+    saveDraft(); return;
+  }
+  if(t.dataset.c){
+    const c = DRAFT.challenge; c[t.dataset.c] = t.dataset.c === 'target' ? Math.max(1, parseInt(t.value, 10) || 1) : t.value;
+    if(t.dataset.c === 'recurring') $$('[data-dates]').forEach(el => el.classList.toggle('hidden', t.value === 'monthly'));
+    saveDraft(); return;
+  }
+  if(t.dataset.t){
+    const row = DRAFT.timetable[+t.closest('tr').dataset.i]; row[t.dataset.t] = t.dataset.t === 'day' || t.dataset.t === 'mins' ? parseInt(t.value, 10) || 0 : t.value;
+    saveDraft(); return;
+  }
+  if(t.id === 'base'){ BASE = t.value.trim() || new URL('./', location.href).href; put('au_admin_base', BASE); }
+});
+document.addEventListener('change', e => { if(e.target.dataset.t === 'day' || e.target.dataset.t === 'time'){ sortTimetable(); renderTimetable(); saveDraft(); } });
+
+/* ---------- Start ---------- */
+$('#i-num').value = nextNumber();
+$('#i-until').value = addMonths(12);
+$('#base').value = BASE;
+(async () => {
+  // On the local test server, serve.py reports the Mac's Wi-Fi address so QR codes work on phones.
+  if(!get('au_admin_base', '') && /^(localhost|127\.)/.test(location.hostname)){
+    try { const r = await fetch('/__lan.json', { cache:'no-store' }); if(r.ok){ const j = await r.json(); if(j.base){ BASE = j.base; $('#base').value = BASE; } } } catch(e){}
+  }
+  await initKey(); renderInvites(); await loadPublished();
+})();
+</script>
+</body>
+</html>
