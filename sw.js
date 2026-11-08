@@ -3,7 +3,7 @@
    - The page sends 'check' on launch and whenever it returns to the foreground;
      the worker then downloads index.html and, if it changed, stores it and
      replies 'update-ready' so the page can offer a reload. */
-const CACHE = 'aurum-pilot-v1';
+const CACHE = 'aurum-pilot-v2';
 const INDEX = './index.html';
 const ASSETS = ['./', INDEX, './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './aurum-mark.svg', './club.json'];
 
@@ -47,6 +47,9 @@ self.addEventListener('fetch', e => {
   }
   // The coach console and the signing key are never cached or served offline.
   if(/\/(admin\.html|pilot-signing-key\.json)$/.test(url.pathname)) return;
+  // Only the app's own pages open from the cache; any other file (e.g. demo.mp4) goes to the network.
+  const appPage = url.pathname === new URL('./', self.registration.scope).pathname || url.pathname.endsWith('/index.html');
+  if(req.mode === 'navigate' && !appPage) return;
   if(req.mode === 'navigate'){
     e.respondWith(caches.match(INDEX).then(cached => cached || fetch(req).catch(() =>
       new Response('You’re offline and Aurum Training hasn’t been saved to this device yet.', { status:503, headers:{ 'Content-Type':'text/plain; charset=utf-8' } }))));
