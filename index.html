@@ -3910,7 +3910,7 @@ const ACT = {
   'club-contact': t => contact(t.dataset.v),
   'share-month': () => shareMonth(),
   'member-out': () => signOutMember(),
-  'open-console': () => window.open('admin.html', '_blank'),
+  'open-console': () => { location.href = 'admin.html'; },
   'cardio-progress': () => { ui.progView = 'cardio'; setTab('progress'); },
   cardio: t => openCardio(t.dataset.id),
   'cardio-filter': t => { ui.cardioType = t.dataset.v; render(); },

@@ -24,6 +24,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 .wrap{max-width:1040px;margin:0 auto;padding:20px 20px 120px}
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:6px 0 18px;border-bottom:1px solid var(--line)}
+.back{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px 0 10px;border-radius:999px;background:var(--card);color:var(--accent-text);font-weight:800;font-size:13px;text-decoration:none;border:1px solid rgba(212,175,55,.25)}
 .lock{display:flex;align-items:center;gap:12px}
 .word{font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:22px;letter-spacing:.16em;line-height:1;background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{font-size:9px;font-weight:800;letter-spacing:.38em;color:#d9c48a;margin-top:5px}
@@ -100,7 +101,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--ca
 <div class="wrap">
   <header>
     <div class="lock" id="lockup"></div>
-    <div class="row"><span class="chip gold">Pilot</span><span class="chip" id="key-chip">No signing key</span></div>
+    <div class="row"><a class="back" href="./" aria-label="Back to the members’ app"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to app</a><span class="chip gold">Pilot</span><span class="chip" id="key-chip">No signing key</span></div>
   </header>
   <nav id="nav">
     <button data-tab="members" class="on">Members &amp; invites</button>

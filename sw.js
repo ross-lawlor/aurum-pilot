@@ -3,7 +3,7 @@
    - The page sends 'check' on launch and whenever it returns to the foreground;
      the worker then downloads index.html and, if it changed, stores it and
      replies 'update-ready' so the page can offer a reload. */
-const CACHE = 'aurum-pilot-v2';
+const CACHE = 'aurum-pilot-v3';
 const INDEX = './index.html';
 const ASSETS = ['./', INDEX, './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './aurum-mark.svg', './club.json'];
 
