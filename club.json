@@ -1,74 +1,358 @@
 {
   "version": 1,
-  "updated": "2026-11-06",
+  "updated": "2026-11-13",
   "announcements": [
-    { "id": "n-2026-11-06", "date": "2026-11-06", "title": "New Strength Block starts Monday 16 November", "body": "Coach Sipho's six-week block is in the app under Club → From your coaches. Add Day A, B and C to your routines and your weights carry over week to week." },
-    { "id": "n-2026-11-03", "date": "2026-11-03", "title": "Saturday Team WOD moves to 08:00", "body": "From 14 November the Saturday Team WOD starts at 08:00, making room for Mobility at 09:15." },
-    { "id": "n-2026-10-28", "date": "2026-10-28", "title": "Festive season hours", "body": "We close at 13:00 on 24 and 31 December, and we're closed on 25 December and 1 January." }
+    {
+      "id": "n-2026-11-06",
+      "date": "2026-11-06",
+      "title": "New Strength Block starts Monday 16 November",
+      "body": "Coach Sipho's six-week block is in the app under Club → From your coaches. Add Day A, B and C to your routines and your weights carry over week to week."
+    },
+    {
+      "id": "n-2026-11-03",
+      "date": "2026-11-03",
+      "title": "Saturday Team WOD moves to 08:00",
+      "body": "From 14 November the Saturday Team WOD starts at 08:00, making room for Mobility at 09:15."
+    },
+    {
+      "id": "n-2026-10-28",
+      "date": "2026-10-28",
+      "title": "Festive season hours",
+      "body": "We close at 13:00 on 24 and 31 December, and we're closed on 25 December and 1 January."
+    }
   ],
   "timetable": [
-    { "day": 1, "time": "05:30", "name": "Strength", "coach": "Sipho", "mins": 60 },
-    { "day": 1, "time": "06:30", "name": "Engine", "coach": "Lebo", "mins": 45 },
-    { "day": 1, "time": "12:15", "name": "Mobility", "coach": "Megan", "mins": 45 },
-    { "day": 1, "time": "17:30", "name": "Strength", "coach": "Kyle", "mins": 60 },
-    { "day": 1, "time": "18:30", "name": "Engine", "coach": "Lebo", "mins": 45 },
-    { "day": 2, "time": "05:30", "name": "Engine", "coach": "Lebo", "mins": 45 },
-    { "day": 2, "time": "06:30", "name": "Strength", "coach": "Sipho", "mins": 60 },
-    { "day": 2, "time": "12:15", "name": "Strength Express", "coach": "Ayesha", "mins": 30 },
-    { "day": 2, "time": "17:30", "name": "Strength", "coach": "Ayesha", "mins": 60 },
-    { "day": 2, "time": "18:30", "name": "Mobility", "coach": "Megan", "mins": 45 },
-    { "day": 3, "time": "05:30", "name": "Strength", "coach": "Sipho", "mins": 60 },
-    { "day": 3, "time": "06:30", "name": "Engine", "coach": "Kyle", "mins": 45 },
-    { "day": 3, "time": "12:15", "name": "Mobility", "coach": "Megan", "mins": 45 },
-    { "day": 3, "time": "17:30", "name": "Strength", "coach": "Kyle", "mins": 60 },
-    { "day": 3, "time": "18:30", "name": "Engine", "coach": "Lebo", "mins": 45 },
-    { "day": 4, "time": "05:30", "name": "Engine", "coach": "Lebo", "mins": 45 },
-    { "day": 4, "time": "06:30", "name": "Strength", "coach": "Sipho", "mins": 60 },
-    { "day": 4, "time": "12:15", "name": "Strength Express", "coach": "Ayesha", "mins": 30 },
-    { "day": 4, "time": "17:30", "name": "Strength", "coach": "Ayesha", "mins": 60 },
-    { "day": 4, "time": "18:30", "name": "Mobility", "coach": "Megan", "mins": 45 },
-    { "day": 5, "time": "05:30", "name": "Strength", "coach": "Kyle", "mins": 60 },
-    { "day": 5, "time": "06:30", "name": "Engine", "coach": "Lebo", "mins": 45 },
-    { "day": 5, "time": "17:00", "name": "Strength", "coach": "Sipho", "mins": 60 },
-    { "day": 6, "time": "08:00", "name": "Team WOD", "coach": "Sipho", "mins": 60 },
-    { "day": 6, "time": "09:15", "name": "Mobility", "coach": "Megan", "mins": 45 }
+    {
+      "day": 1,
+      "time": "05:30",
+      "name": "Strength",
+      "coach": "Sipho",
+      "mins": 60
+    },
+    {
+      "day": 1,
+      "time": "06:30",
+      "name": "Engine",
+      "coach": "Lebo",
+      "mins": 45
+    },
+    {
+      "day": 1,
+      "time": "12:15",
+      "name": "Mobility",
+      "coach": "Megan",
+      "mins": 45
+    },
+    {
+      "day": 1,
+      "time": "17:30",
+      "name": "Strength",
+      "coach": "Kyle",
+      "mins": 60
+    },
+    {
+      "day": 1,
+      "time": "18:30",
+      "name": "Engine",
+      "coach": "Lebo",
+      "mins": 45
+    },
+    {
+      "day": 2,
+      "time": "05:30",
+      "name": "Engine",
+      "coach": "Lebo",
+      "mins": 45
+    },
+    {
+      "day": 2,
+      "time": "06:30",
+      "name": "Strength",
+      "coach": "Sipho",
+      "mins": 60
+    },
+    {
+      "day": 2,
+      "time": "12:15",
+      "name": "Strength Express",
+      "coach": "Ayesha",
+      "mins": 30
+    },
+    {
+      "day": 2,
+      "time": "17:30",
+      "name": "Strength",
+      "coach": "Ayesha",
+      "mins": 60
+    },
+    {
+      "day": 2,
+      "time": "18:30",
+      "name": "Mobility",
+      "coach": "Megan",
+      "mins": 45
+    },
+    {
+      "day": 3,
+      "time": "05:30",
+      "name": "Strength",
+      "coach": "Sipho",
+      "mins": 60
+    },
+    {
+      "day": 3,
+      "time": "06:30",
+      "name": "Engine",
+      "coach": "Kyle",
+      "mins": 45
+    },
+    {
+      "day": 3,
+      "time": "12:15",
+      "name": "Mobility",
+      "coach": "Megan",
+      "mins": 45
+    },
+    {
+      "day": 3,
+      "time": "17:30",
+      "name": "Strength",
+      "coach": "Kyle",
+      "mins": 60
+    },
+    {
+      "day": 3,
+      "time": "18:30",
+      "name": "Engine",
+      "coach": "Lebo",
+      "mins": 45
+    },
+    {
+      "day": 4,
+      "time": "05:30",
+      "name": "Engine",
+      "coach": "Lebo",
+      "mins": 45
+    },
+    {
+      "day": 4,
+      "time": "06:30",
+      "name": "Strength",
+      "coach": "Sipho",
+      "mins": 60
+    },
+    {
+      "day": 4,
+      "time": "12:15",
+      "name": "Strength Express",
+      "coach": "Ayesha",
+      "mins": 30
+    },
+    {
+      "day": 4,
+      "time": "17:30",
+      "name": "Strength",
+      "coach": "Ayesha",
+      "mins": 60
+    },
+    {
+      "day": 4,
+      "time": "18:30",
+      "name": "Mobility",
+      "coach": "Megan",
+      "mins": 45
+    },
+    {
+      "day": 5,
+      "time": "05:30",
+      "name": "Strength",
+      "coach": "Kyle",
+      "mins": 60
+    },
+    {
+      "day": 5,
+      "time": "06:30",
+      "name": "Engine",
+      "coach": "Lebo",
+      "mins": 45
+    },
+    {
+      "day": 5,
+      "time": "17:00",
+      "name": "Strength",
+      "coach": "Sipho",
+      "mins": 60
+    },
+    {
+      "day": 6,
+      "time": "08:00",
+      "name": "Team WOD",
+      "coach": "Sipho",
+      "mins": 60
+    },
+    {
+      "day": 6,
+      "time": "09:15",
+      "name": "Mobility",
+      "coach": "Megan",
+      "mins": 45
+    }
   ],
   "programmes": [
-    { "id": "sb1-a", "name": "Strength Block · Day A", "coach": "Sipho", "level": "All levels", "weeks": "6 weeks · 3 days a week",
+    {
+      "id": "sb1-a",
+      "name": "Strength Block · Day A",
+      "coach": "Sipho",
+      "level": "All levels",
+      "weeks": "6 weeks · 3 days a week",
       "desc": "Lower-body strength. Start lighter than you think, then add a little weight each week while the reps stay clean.",
       "items": [
-        { "ex": "Squat", "cat": "Legs", "sets": 4, "note": "5 reps at RPE 7 · add 2.5 kg a week" },
-        { "ex": "Romanian Deadlift", "cat": "Legs", "sets": 3, "note": "8 reps · 3-second lowering" },
-        { "ex": "Bulgarian Split Squat", "cat": "Legs", "sets": 3, "note": "8 each leg · hold dumbbells" },
-        { "ex": "Hip Thrust", "cat": "Legs", "sets": 3, "note": "10 reps · pause at the top" },
-        { "ex": "Hanging Leg Raise", "cat": "Core", "sets": 3, "note": "10–12 reps, no swinging" }
-      ] },
-    { "id": "sb1-b", "name": "Strength Block · Day B", "coach": "Sipho", "level": "All levels", "weeks": "6 weeks · 3 days a week",
+        {
+          "ex": "Squat",
+          "cat": "Legs",
+          "sets": 4,
+          "note": "5 reps at RPE 7 · add 2.5 kg a week"
+        },
+        {
+          "ex": "Romanian Deadlift",
+          "cat": "Legs",
+          "sets": 3,
+          "note": "8 reps · 3-second lowering"
+        },
+        {
+          "ex": "Bulgarian Split Squat",
+          "cat": "Legs",
+          "sets": 3,
+          "note": "8 each leg · hold dumbbells"
+        },
+        {
+          "ex": "Hip Thrust",
+          "cat": "Legs",
+          "sets": 3,
+          "note": "10 reps · pause at the top"
+        },
+        {
+          "ex": "Hanging Leg Raise",
+          "cat": "Core",
+          "sets": 3,
+          "note": "10–12 reps, no swinging"
+        }
+      ]
+    },
+    {
+      "id": "sb1-b",
+      "name": "Strength Block · Day B",
+      "coach": "Sipho",
+      "level": "All levels",
+      "weeks": "6 weeks · 3 days a week",
       "desc": "Upper-body push and pull. Keep two reps in the tank on every set.",
       "items": [
-        { "ex": "Bench Press", "cat": "Chest", "sets": 4, "note": "5 reps at RPE 7 · add 1–2.5 kg a week" },
-        { "ex": "Barbell Row", "cat": "Back", "sets": 4, "note": "8 reps · flat back" },
-        { "ex": "Overhead Press", "cat": "Shoulders", "sets": 3, "note": "6–8 reps" },
-        { "ex": "Pull-Up", "cat": "Back", "sets": 3, "note": "As many as you can, leave 1 in the tank" },
-        { "ex": "Face Pull", "cat": "Shoulders", "sets": 3, "note": "15 reps · light and controlled" }
-      ] },
-    { "id": "sb1-c", "name": "Strength Block · Day C", "coach": "Sipho", "level": "All levels", "weeks": "6 weeks · 3 days a week",
+        {
+          "ex": "Bench Press",
+          "cat": "Chest",
+          "sets": 4,
+          "note": "5 reps at RPE 7 · add 1–2.5 kg a week"
+        },
+        {
+          "ex": "Barbell Row",
+          "cat": "Back",
+          "sets": 4,
+          "note": "8 reps · flat back"
+        },
+        {
+          "ex": "Overhead Press",
+          "cat": "Shoulders",
+          "sets": 3,
+          "note": "6–8 reps"
+        },
+        {
+          "ex": "Pull-Up",
+          "cat": "Back",
+          "sets": 3,
+          "note": "As many as you can, leave 1 in the tank"
+        },
+        {
+          "ex": "Face Pull",
+          "cat": "Shoulders",
+          "sets": 3,
+          "note": "15 reps · light and controlled"
+        }
+      ]
+    },
+    {
+      "id": "sb1-c",
+      "name": "Strength Block · Day C",
+      "coach": "Sipho",
+      "level": "All levels",
+      "weeks": "6 weeks · 3 days a week",
       "desc": "Full body. Heavier pulls, lighter accessories, and a finisher.",
       "items": [
-        { "ex": "Deadlift", "cat": "Back", "sets": 3, "note": "3 reps at RPE 8" },
-        { "ex": "Front Squat", "cat": "Legs", "sets": 3, "note": "6 reps" },
-        { "ex": "Dumbbell Shoulder Press", "cat": "Shoulders", "sets": 3, "note": "10 reps" },
-        { "ex": "Dumbbell Row", "cat": "Back", "sets": 3, "note": "10 each side" },
-        { "ex": "Kettlebell Swing", "cat": "Other", "sets": 3, "note": "15 reps · finisher" }
-      ] },
-    { "id": "engine-1", "name": "Aurum Engine", "coach": "Lebo", "level": "All levels", "weeks": "Any day · 25 minutes",
+        {
+          "ex": "Deadlift",
+          "cat": "Back",
+          "sets": 3,
+          "note": "3 reps at RPE 8"
+        },
+        {
+          "ex": "Front Squat",
+          "cat": "Legs",
+          "sets": 3,
+          "note": "6 reps"
+        },
+        {
+          "ex": "Dumbbell Shoulder Press",
+          "cat": "Shoulders",
+          "sets": 3,
+          "note": "10 reps"
+        },
+        {
+          "ex": "Dumbbell Row",
+          "cat": "Back",
+          "sets": 3,
+          "note": "10 each side"
+        },
+        {
+          "ex": "Kettlebell Swing",
+          "cat": "Other",
+          "sets": 3,
+          "note": "15 reps · finisher"
+        }
+      ]
+    },
+    {
+      "id": "engine-1",
+      "name": "Aurum Engine",
+      "coach": "Lebo",
+      "level": "All levels",
+      "weeks": "Any day · 25 minutes",
       "desc": "Conditioning intervals you can do on your own. 40 seconds on, 20 seconds off — the timer guides you.",
       "items": [
-        { "ex": "Burpees", "cat": "Other", "sets": 3, "note": "Steady pace, count your reps" },
-        { "ex": "Mountain Climbers", "cat": "Core", "sets": 3, "note": "Hips low" },
-        { "ex": "Jump Squat", "cat": "Legs", "sets": 3, "note": "Soft landings" },
-        { "ex": "Plank", "cat": "Core", "sets": 3, "note": "Squeeze glutes" }
-      ] }
+        {
+          "ex": "Burpees",
+          "cat": "Other",
+          "sets": 3,
+          "note": "Steady pace, count your reps"
+        },
+        {
+          "ex": "Mountain Climbers",
+          "cat": "Core",
+          "sets": 3,
+          "note": "Hips low"
+        },
+        {
+          "ex": "Jump Squat",
+          "cat": "Legs",
+          "sets": 3,
+          "note": "Soft landings"
+        },
+        {
+          "ex": "Plank",
+          "cat": "Core",
+          "sets": 3,
+          "note": "Squeeze glutes"
+        }
+      ]
+    }
   ],
   "challenge": {
     "id": "aurum-12",
@@ -80,8 +364,16 @@
     "reward": "Finishers go on the gold board and get a free smoothie."
   },
   "perks": [
-    { "title": "10% off at Fuel Bar", "body": "Show your member card at the smoothie bar." },
-    { "title": "R100 off your first physio session", "body": "At Bryanston Sports Physio. Mention Aurum when you book." }
+    {
+      "title": "10% off at Fuel Bar",
+      "body": "Show your member card at the smoothie bar."
+    },
+    {
+      "title": "R100 off your first physio session",
+      "body": "At Bryanston Sports Physio. Mention Aurum when you book."
+    }
   ],
-  "revoked": []
+  "revoked": [
+    "AUR-1044"
+  ]
 }
