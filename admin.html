@@ -5,29 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Aurum Coach Console</title>
-<link rel="icon" type="image/png" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&amp;family=Manrope:wght@500;600;700;800&amp;display=swap">
+<link rel="icon" type="image/png" href="icon-192.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
+/* Aurum coach console colours and fonts. build.py inserts this at the top of admin.html's stylesheet. */
 :root{
   --bg:#0a0907; --card:#16140f; --card-2:#211e17; --card-3:#2e2a20; --line:rgba(120,108,84,.38);
   --label:#f7f3ea; --label-2:rgba(240,232,214,.64); --label-3:rgba(240,232,214,.36);
   --accent:#d4af37; --accent-text:#e3c766; --accent-soft:rgba(212,175,55,.16); --on-accent:#14110a;
   --gold:linear-gradient(135deg,#f3dc8a 0%,#d4af37 48%,#a8842a 100%);
   --good:#5fd38a; --warn:#ffb35c; --bad:#ff7a6e;
+  --font-display:"Cinzel",Georgia,serif; --font-body:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --sub:#d9c48a; --accent-line:rgba(212,175,55,.25);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--label);font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--label);font-family:var(--font-body);font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 .wrap{max-width:1040px;margin:0 auto;padding:20px 20px 120px}
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:6px 0 18px;border-bottom:1px solid var(--line)}
-.back{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px 0 10px;border-radius:999px;background:var(--card);color:var(--accent-text);font-weight:800;font-size:13px;text-decoration:none;border:1px solid rgba(212,175,55,.25)}
+.back{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px 0 10px;border-radius:999px;background:var(--card);color:var(--accent-text);font-weight:800;font-size:13px;text-decoration:none;border:1px solid var(--accent-line)}
 .lock{display:flex;align-items:center;gap:12px}
-.word{font-family:"Cinzel",Georgia,serif;font-weight:700;font-size:22px;letter-spacing:.16em;line-height:1;background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{font-size:9px;font-weight:800;letter-spacing:.38em;color:#d9c48a;margin-top:5px}
+.word{font-family:var(--font-display);font-weight:700;font-size:22px;letter-spacing:.16em;line-height:1;background:var(--gold);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:9px;font-weight:800;letter-spacing:.38em;color:var(--sub);margin-top:5px}
 .title{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--label-2);margin-left:14px;padding-left:14px;border-left:1px solid var(--line)}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:var(--card-2);color:var(--label-2)}
 .chip.ok{background:rgba(95,211,138,.14);color:var(--good)}
@@ -113,7 +116,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--ca
   <section data-view="members">
     <div class="card keybox hidden" id="key-setup">
       <h3>Load the gym’s signing key</h3>
-      <p class="muted small" style="margin-bottom:12px">Invites are signed with Aurum’s private key, so only this console can create them. The key stays in this browser and is never sent anywhere.</p>
+      <p class="muted small" style="margin-bottom:12px">Invites are signed with <span data-gym="short"></span>’s private key, so only this console can create them. The key stays in this browser and is never sent anywhere.</p>
       <div class="row">
         <button class="btn pri" data-act="key-demo">Use the pilot demo key</button>
         <button class="btn" data-act="key-file">Load a key file…</button>
@@ -203,12 +206,14 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--ca
 <div class="toast" id="toast"></div>
 
 <script>
-/* Aurum Coach Console — the gym's side of the pilot.
+/* Coach console — the gym's side of the app.
    • Signs member invites (ECDSA P-256) with the gym's private key, kept only in this browser.
    • Edits club.json (news, challenge, timetable, programmes, perks, turned-off invites).
    Everything is saved in this browser; nothing is sent anywhere. */
-const GYM_ID = 'aurum';
-const APP_PUBLIC_KEY = { x:'rlsghUbbcRUfdiDBqkCgHeMGyHeEEItbYF6ETirP3f4', y:'il2c14qdT156UVjrV0lJBNURISaQbJZVdFfk2XEWlQI' };
+/* Gym settings: build.py replaces the next line with gyms/<gym>/gym.json (see gyms/README.md). */
+const GYM = {"id": "aurum", "name": "Aurum Athletic Club", "short": "Aurum", "app": "Aurum Training", "tagline": "Train with purpose", "wordmark": ["AURUM", "ATHLETIC CLUB"], "memberPrefix": "AUR", "member": "Ross", "poweredBy": "IronTrack", "demo": true, "storageKey": "aurum_training_pilot_v1", "accent": "#d4af37", "themeColor": "#0a0907", "fonts": {"display": "Cinzel", "body": "Manrope", "css": "https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@500;600;700;800&display=swap"}, "mark": "aurum-mark.svg", "recap": {"bg": ["#2a2414", "#0a0907"], "gold": ["#f6e08e", "#d4af37", "#a8842a"], "frame": "rgba(212,175,55,.5)", "soft": "#d9c48a", "text": "#f7f3ea", "textSoft": "rgba(247,243,234,.72)"}, "print": {"border": "#b8932f", "word": "#a07a22", "sub": "#8a6d22"}, "contact": {"whatsapp": "27000000000", "phone": "+27 11 000 0000", "instagram": "aurumathletic", "address": "14 Example Road, Bryanston, Johannesburg", "hours": [["Mon–Fri", "05:00–21:00"], ["Saturday", "07:00–13:00"], ["Sunday", "08:00–11:00"]]}, "access": {"mode": "members", "graceDays": 14, "publicKey": {"kty": "EC", "crv": "P-256", "x": "rlsghUbbcRUfdiDBqkCgHeMGyHeEEItbYF6ETirP3f4", "y": "il2c14qdT156UVjrV0lJBNURISaQbJZVdFfk2XEWlQI"}, "demoInvite": "eyJ2IjoxLCJnIjoiYXVydW0iLCJuIjoiUm9zcyBMYXdsb3IiLCJtIjoiQVVSLTEwMDEiLCJpIjoiMjAyNS0wOC0wNCIsImUiOiIyMDI3LTEyLTMxIn0._ap307-RhAAfrrpgr-7uIqre6ckYdy2qSySMAtW5rcVMyZJl3jzUkez4iPS9wriWmtjZKYcNZI6tUUkEZI46Fg"}, "contentUrl": "club.json", "starterNote": "Coach Sipho’s Strength Block (Days A–C) and the Aurum Engine.", "starterRoutines": [{"name": "Strength Block · Day A", "coach": "Sipho", "src": "sb1-a", "items": [["Squat", 4, "5 reps at RPE 7 · add 2.5 kg a week"], ["Romanian Deadlift", 3, "8 reps · 3-second lowering"], ["Bulgarian Split Squat", 3, "8 each leg · hold dumbbells"], ["Hip Thrust", 3, "10 reps · pause at the top"], ["Hanging Leg Raise", 3, "10–12 reps, no swinging"]]}, {"name": "Strength Block · Day B", "coach": "Sipho", "src": "sb1-b", "items": [["Bench Press", 4, "5 reps at RPE 7 · add 1–2.5 kg a week"], ["Barbell Row", 4, "8 reps · flat back"], ["Overhead Press", 3, "6–8 reps"], ["Pull-Up", 3, "As many as you can, leave 1 in the tank"], ["Face Pull", 3, "15 reps · light and controlled"]]}, {"name": "Strength Block · Day C", "coach": "Sipho", "src": "sb1-c", "items": [["Deadlift", 3, "3 reps at RPE 8"], ["Front Squat", 3, "6 reps"], ["Dumbbell Shoulder Press", 3, "10 reps"], ["Dumbbell Row", 3, "10 each side"], ["Kettlebell Swing", 3, "15 reps · finisher"]]}, {"name": "Aurum Engine", "coach": "Lebo", "src": "engine-1", "items": [["Burpees", 3, "Steady pace, count your reps"], ["Mountain Climbers", 3, "Hips low"], ["Jump Squat", 3, "Soft landings"], ["Plank", 3, "Squeeze glutes"]]}], "markSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 120 120\" role=\"img\" aria-label=\"Aurum Athletic Club\"> <defs> <linearGradient id=\"au-g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"> <stop offset=\"0\" stop-color=\"#f6e08e\"/><stop offset=\".5\" stop-color=\"#d4af37\"/><stop offset=\"1\" stop-color=\"#9c7621\"/> </linearGradient> </defs> <circle cx=\"60\" cy=\"60\" r=\"55\" fill=\"none\" stroke=\"url(#au-g)\" stroke-width=\"2.5\"/> <circle cx=\"60\" cy=\"60\" r=\"49.5\" fill=\"none\" stroke=\"url(#au-g)\" stroke-width=\"1\" opacity=\".5\"/> <path d=\"M34 93 L60 25 L86 93\" fill=\"none\" stroke=\"url(#au-g)\" stroke-width=\"10\" stroke-linejoin=\"miter\" stroke-miterlimit=\"10\"/> <g fill=\"url(#au-g)\"> <rect x=\"19\" y=\"68\" width=\"82\" height=\"4\" rx=\"2\"/> <rect x=\"22\" y=\"58\" width=\"7\" height=\"24\" rx=\"1.5\"/><rect x=\"30\" y=\"62\" width=\"3.5\" height=\"16\" rx=\"1\"/> <rect x=\"91\" y=\"58\" width=\"7\" height=\"24\" rx=\"1.5\"/><rect x=\"86.5\" y=\"62\" width=\"3.5\" height=\"16\" rx=\"1\"/> </g> </svg>"}; // from gyms/aurum/gym.json
+const GYM_ID = GYM.id;
+const APP_PUBLIC_KEY = { x:GYM.access.publicKey.x, y:GYM.access.publicKey.y };
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 const pad = n => String(n).padStart(2, '0');
@@ -224,7 +229,8 @@ let toastT;
 function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2400); }
 async function copy(text){ try { await navigator.clipboard.writeText(text); return true; } catch(e){ return false; } }
 
-$('#lockup').innerHTML = `<img src="aurum-mark.svg" width="46" height="46" alt=""><div><div class="word">AURUM</div><div class="sub">ATHLETIC CLUB</div></div><div class="title">Coach console</div>`;
+$('#lockup').innerHTML = `<img src="${esc(GYM.mark)}" width="46" height="46" alt=""><div><div class="word">${esc(GYM.wordmark[0])}</div><div class="sub">${esc(GYM.wordmark[1])}</div></div><div class="title">Coach console</div>`;
+$$('[data-gym]').forEach(el => { el.textContent = GYM[el.dataset.gym]; });
 
 /* ---------- State ---------- */
 let KEY = null;                         // CryptoKey for signing
@@ -257,7 +263,7 @@ function updateCreate(){ $('#create-btn').disabled = !KEY; }
 /* ---------- Invites ---------- */
 function nextNumber(){
   const nums = INVITES.map(i => parseInt(String(i.num).replace(/\D/g, ''), 10)).filter(n => n > 0);
-  return 'AUR-' + (Math.max(1043, ...nums) + 1);
+  return GYM.memberPrefix + '-' + (Math.max(1043, ...nums) + 1);
 }
 function inviteURL(token){ return BASE.replace(/[^/]*$/, '') + '?join=' + token; }
 async function signInvite(name, num, until){
@@ -272,7 +278,7 @@ function qrSVG(text){
   return q.createSvgTag({ cellSize:4, margin:2, scalable:true });
 }
 const statusOf = inv => inv.revoked ? 'revoked' : inv.until < today() ? 'expired' : 'active';
-const whatsappText = inv => `Hi ${inv.name.split(' ')[0]}! Here’s your Aurum Training app, included with your membership:\n${inviteURL(inv.token)}\n\nOpen it on your phone, then tap Share → Add to Home Screen. See you in the gym! – Aurum Athletic Club`;
+const whatsappText = inv => `Hi ${inv.name.split(' ')[0]}! Here’s your ${GYM.app} app, included with your membership:\n${inviteURL(inv.token)}\n\nOpen it on your phone, then tap Share → Add to Home Screen. See you in the gym! – ${GYM.name}`;
 function showResult(inv){
   $('#result').innerHTML = `<div class="result">
     <div class="qr">${qrSVG(inviteURL(inv.token))}</div>
@@ -296,7 +302,7 @@ function renderInvites(){
 }
 function printCard(inv){
   const w = window.open('', '_blank'); if(!w){ toast('Allow pop-ups to print'); return; }
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Aurum invite — ${esc(inv.name)}</title><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Manrope:wght@600;800&display=swap" rel="stylesheet"><style>body{font-family:Manrope,sans-serif;margin:0;display:flex;justify-content:center;padding:30px}.c{width:340px;border:2px solid #b8932f;border-radius:18px;padding:26px;text-align:center}.w{font-family:Cinzel,serif;font-size:28px;letter-spacing:.16em;color:#a07a22}.s{font-size:9px;letter-spacing:.38em;font-weight:800;color:#8a6d22;margin-top:4px}h1{font-size:19px;margin:20px 0 4px}.q{width:220px;height:220px;margin:16px auto}.q svg{width:100%;height:100%}p{font-size:13px;color:#444;line-height:1.45;margin:6px 0}</style></head><body><div class="c"><img src="${new URL('aurum-mark.svg', location.href).href}" width="64" height="64"><div class="w">AURUM</div><div class="s">ATHLETIC CLUB</div><h1>Your training app, ${esc(inv.name.split(' ')[0])}</h1><p>Scan with your phone camera to unlock it.</p><div class="q">${qrSVG(inviteURL(inv.token))}</div><p><b>${esc(inv.num)}</b> · access until ${fmtDate(inv.until)}</p><p>Then tap Share → Add to Home Screen.</p></div><script>setTimeout(() => print(), 600)<\/script></body></html>`);
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(GYM.short)} invite — ${esc(inv.name)}</title><link href="${esc(GYM.fonts.css)}" rel="stylesheet"><style>body{font-family:${GYM.fonts.body},sans-serif;margin:0;display:flex;justify-content:center;padding:30px}.c{width:340px;border:2px solid ${GYM.print.border};border-radius:18px;padding:26px;text-align:center}.w{font-family:${GYM.fonts.display},serif;font-size:28px;letter-spacing:.16em;color:${GYM.print.word}}.s{font-size:9px;letter-spacing:.38em;font-weight:800;color:${GYM.print.sub};margin-top:4px}h1{font-size:19px;margin:20px 0 4px}.q{width:220px;height:220px;margin:16px auto}.q svg{width:100%;height:100%}p{font-size:13px;color:#444;line-height:1.45;margin:6px 0}</style></head><body><div class="c"><img src="${new URL(GYM.mark, location.href).href}" width="64" height="64"><div class="w">${esc(GYM.wordmark[0])}</div><div class="s">${esc(GYM.wordmark[1])}</div><h1>Your training app, ${esc(inv.name.split(' ')[0])}</h1><p>Scan with your phone camera to unlock it.</p><div class="q">${qrSVG(inviteURL(inv.token))}</div><p><b>${esc(inv.num)}</b> · access until ${fmtDate(inv.until)}</p><p>Then tap Share → Add to Home Screen.</p></div><script>setTimeout(() => print(), 600)<\/script></body></html>`);
   w.document.close();
 }
 
@@ -375,10 +381,10 @@ document.addEventListener('click', async e => {
     else if(act === 'key-new'){
       const kp = await crypto.subtle.generateKey({ name:'ECDSA', namedCurve:'P-256' }, true, ['sign', 'verify']);
       const priv = await crypto.subtle.exportKey('jwk', kp.privateKey), pub = { kty:'EC', crv:'P-256', x:priv.x, y:priv.y };
-      download('aurum-signing-key.json', JSON.stringify({ note:'Aurum invite signing key. Keep it safe; anyone with it can create invites.', gym:GYM_ID, privateKey:priv, publicKey:pub }, null, 2));
+      download(`${GYM_ID}-signing-key.json`, JSON.stringify({ note:`${GYM.short} invite signing key. Keep it safe; anyone with it can create invites.`, gym:GYM_ID, privateKey:priv, publicKey:pub }, null, 2));
       await useKey(priv, 'new key');
       $('#key-new-out').classList.remove('hidden');
-      $('#key-new-out').innerHTML = `<p class="small">Saved <b>aurum-signing-key.json</b> to your downloads — keep it somewhere safe. Send this public key to your app manager so the app accepts these invites:</p><p style="margin-top:8px"><code>${esc(JSON.stringify(pub))}</code></p>`;
+      $('#key-new-out').innerHTML = `<p class="small">Saved <b>${esc(GYM_ID)}-signing-key.json</b> to your downloads — keep it somewhere safe. Send this public key to your app manager so the app accepts these invites:</p><p style="margin-top:8px"><code>${esc(JSON.stringify(pub))}</code></p>`;
     }
     else if(act === 'create'){
       const name = $('#i-name').value.trim(), num = $('#i-num').value.trim(), until = $('#i-until').value;
@@ -394,7 +400,7 @@ document.addEventListener('click', async e => {
     else if(act === 'copy-msg' && inv) toast(await copy(whatsappText(inv)) ? 'Message copied — paste it into WhatsApp' : 'Couldn’t copy');
     else if(act === 'print' && inv) printCard(inv);
     else if(act === 'revoke' && inv){ inv.revoked = !inv.revoked; put('au_admin_invites', INVITES); renderInvites(); updateBar(); toast(inv.revoked ? `${inv.name}’s access will turn off when you publish` : `${inv.name}’s access is back on after you publish`); }
-    else if(act === 'inv-csv'){ const rows = [['Name', 'Member no.', 'Issued', 'Access until', 'Status', 'Invite link']].concat(INVITES.map(i => [i.name, i.num, i.issued, i.until, statusOf(i), inviteURL(i.token)])); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + rows.map(r => r.map(c => /[",\n]/.test(c) ? `"${String(c).replace(/"/g, '""')}"` : c).join(',')).join('\r\n')], { type:'text/csv' })); a.download = `aurum-invites-${today()}.csv`; document.body.appendChild(a); a.click(); a.remove(); }
+    else if(act === 'inv-csv'){ const rows = [['Name', 'Member no.', 'Issued', 'Access until', 'Status', 'Invite link']].concat(INVITES.map(i => [i.name, i.num, i.issued, i.until, statusOf(i), inviteURL(i.token)])); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + rows.map(r => r.map(c => /[",\n]/.test(c) ? `"${String(c).replace(/"/g, '""')}"` : c).join(',')).join('\r\n')], { type:'text/csv' })); a.download = `${GYM_ID}-invites-${today()}.csv`; document.body.appendChild(a); a.click(); a.remove(); }
     else if(act === 'add'){
       const list = b.dataset.list, blank = list === 'announcements' ? { id:'n-' + Date.now().toString(36), date:today(), title:'', body:'' } : list === 'programmes' ? { id:'p-' + Date.now().toString(36), name:'', coach:'', level:'All levels', weeks:'', desc:'', items:[] } : { title:'', body:'' };
       DRAFT[list] = [blank, ...(DRAFT[list] || [])]; renderList(list, 0); saveDraft(); $(`#l-${list} details[open] input, #l-${list} details[open] textarea`)?.focus();
